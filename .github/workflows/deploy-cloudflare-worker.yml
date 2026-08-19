@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Worker
 
 on:
   push:
@@ -16,12 +16,12 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-pages-production
+  group: cloudflare-worker-production
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy project 00
+    name: Deploy Worker guoyj-edgetunnel
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
@@ -30,10 +30,10 @@ jobs:
         with:
           ref: main
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=00 --branch=main
+          command: deploy --keep-vars
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
