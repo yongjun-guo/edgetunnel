@@ -4,6 +4,16 @@ compatibility_date = "2025-11-04"
 keep_vars = true
 workers_dev = true
 
+# Route both public hostnames through the same Worker so they share the
+# production code, secrets, UUID derivation, and KV configuration.
+[[routes]]
+pattern = "guoyj.ccwu.cc/*"
+zone_name = "ccwu.cc"
+
+[[routes]]
+pattern = "gyjweb.ccwu.cc/*"
+zone_name = "ccwu.cc"
+
 [[kv_namespaces]]
 binding = "KV"
 id = "958f3364acf84616af0eece7ba620a29"
